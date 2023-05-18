@@ -1,2 +1,5 @@
 ---
-# defaults file for template
+
+vagrant_apt_repokey_url: "https://apt.releases.hashicorp.com/gpg"
+vagrant_apt_repokey_keyringfile: "/usr/share/keyrings/hashicorp-archive-keyring.gpg"
+vagrant_apt_repo_url: "deb [signed-by={{ vagrant_apt_repokey_keyringfile }}] https://apt.releases.hashicorp.com {{ ansible_lsb.codename }} main"
