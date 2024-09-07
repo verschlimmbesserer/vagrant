@@ -1,21 +1,21 @@
 ---
 
-- name: "Add Hashicorp Repository"
-  block:
+- name: Configure Hashicorp Repository
+  ansible.builtin.deb822_repository:
+    name: hashicorp
+    types: deb
+    uris: "{{ vagrant_repository_url }}"
+    suites: '{{ ansible_distribution_release }}'
+    components: main
+    architectures: amd64
+    signed_by: "{{ vagrant_repository_gpg_key }}"
+    state: present
 
-    - name: "Add Repository Key"
-      ansible.builtin.get_url:
-        url: "{{ vagrant_apt_repokey_url }}"
-        dest: "{{ vagrant_apt_repokey_keyringfile }}"
-
-    - name: "Add repository into sources list"
-      ansible.builtin.apt_repository:
-        repo: "{{ vagrant_apt_repo_url }}"
-        state: present
-        filename: hashicorp
+- name: Update Repositories
+  ansible.builtin.apt:
+    update_cache: true
 
 - name: "Install Vagrant"
   ansible.builtin.apt:
     name: vagrant
-    state: latest
-    update_cache: yes
+    state: present
